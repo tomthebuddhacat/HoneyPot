@@ -2,6 +2,7 @@ package io.github.tomthebuddhacat;
 
 import io.github.tomthebuddhacat.config.Config;
 import io.github.tomthebuddhacat.listener.PunishmentListener;
+import io.github.tomthebuddhacat.listener.ReadyListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -30,7 +31,8 @@ public class Main {
 
                // Register event listeners.
                 .addEventListeners(
-                        new PunishmentListener(config)
+                        new PunishmentListener(config),
+                        new ReadyListener(config)
                 )
 
                 .build();

@@ -31,7 +31,7 @@ public class PunishmentListener extends ListenerAdapter {
                 .reason(config.getHoneyPotPunishmentReason())
                 .queue(
                         onSuccess -> System.out.println("User with the ID " + messageReceivedEvent.getAuthor().getId() + " has been punished."),
-                        onFailure -> System.out.println("Failed to punish the user with the ID: " + messageReceivedEvent.getAuthor().getId())
+                        onFailure -> System.out.println("Failed to punish the user with the ID: " + messageReceivedEvent.getAuthor().getId() + "\n" + onFailure.getMessage())
                 );
     }
 }

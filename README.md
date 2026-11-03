@@ -21,7 +21,14 @@ The bot uses HOCON (`config.conf`) for its configuration.
 | `discord-bot-token` | The Discord bot token. |
 | `discord-bot-status` | The activity displayed by the bot. |
 | `honey-pot-channel-id` | The channel monitored by the bot. |
-| `honey-pot-pinishment-reason` | The reason logged in the Discord Audit Log. |
+| `honey-pot-punishment-reason` | The reason logged in the Discord Audit Log. |
+| `honey-pot-message-format` | The format of the warning message. Available options: `text` or `embed`. |
+| `honey-pot-message` | The configurable text displayed when the warning message format is set to `text`. |
+| `honey-pot-embed.title` | The title of the warning embed. |
+| `honey-pot-embed.description` | The description displayed inside the warning embed. |
+| `honey-pot-embed.color` | The color of the warning embed. |
+| `honey-pot-embed.footer` | The footer displayed at the bottom of the warning embed. |
+
 
 ## Built With
 

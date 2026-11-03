@@ -33,6 +33,9 @@ bin/
 ### Java ###
 .class
 
+### Configuration File ###
+config.conf
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
