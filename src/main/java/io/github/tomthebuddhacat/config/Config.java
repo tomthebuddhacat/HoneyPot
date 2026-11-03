@@ -11,9 +11,9 @@ import java.nio.file.Path;
 
 public class Config {
 
-    private HoconConfigurationLoader hoconConfigurationLoader;
+    private final HoconConfigurationLoader hoconConfigurationLoader;
 
-    private CommentedConfigurationNode commentedConfigurationNode;
+    private final CommentedConfigurationNode commentedConfigurationNode;
 
     /**
      * Initializes the configuration loader, loads the configuration
@@ -38,9 +38,11 @@ public class Config {
 
         this.commentedConfigurationNode = hoconConfigurationLoader.load(
                 ConfigurationOptions.defaults().header(
-                        "Discord Bot Configuration.\n\n" +
-                        "This file contains the configuration settings used by the bot.\n" +
-                        "Modify the values below as per your needs."
+                        """
+                                Discord Bot Configuration.
+                                
+                                This file contains the configuration settings used by the bot.
+                                Modify the values below as per your needs."""
                 )
         );
 
@@ -97,10 +99,13 @@ public class Config {
                 commentedConfigurationNode.node("discord-bot-token");
 
         discordBotToken.comment(
-                "Authentication Configuration.\n\n" +
-                        "A Discord bot token is a secret, unique string of letters, numbers,\n" +
-                        "and symbols that acts as a digital password or key for your Discord bot.\n\n" +
-                        "Reference URL: https://docs.discord.com/developers/bots/overview"
+                """
+                        Authentication Configuration.
+                        
+                        A Discord bot token is a secret, unique string of letters, numbers,
+                        and symbols that acts as a digital password or key for your Discord bot.
+                        
+                        Reference URL: https://docs.discord.com/developers/bots/overview"""
         );
 
         if (discordBotToken.isNull()) {
@@ -111,9 +116,12 @@ public class Config {
                 commentedConfigurationNode.node("discord-bot-status");
 
         discordBotStatus.comment(
-                "Miscellaneous Configuration.\n\n" +
-                        "The activity displayed under the application.\n\n" +
-                        "Reference URL: https://wiki.botdesignerdiscord.com/guides/introduction/botStatus.html"
+                """
+                        Miscellaneous Configuration.
+                        
+                        The activity displayed under the application.
+                        
+                        Reference URL: https://wiki.botdesignerdiscord.com/guides/introduction/botStatus.html"""
         );
 
         if (discordBotStatus.isNull()) {
@@ -124,9 +132,11 @@ public class Config {
                 commentedConfigurationNode.node("honey-pot-channel-id");
 
         honeyPotChannel.comment(
-                "Moderation Configuration.\n\n" +
-                        "The Discord Channel that is monitored.\n" +
-                        "Any user who sends a message in this channel will be punished."
+                """
+                        Moderation Configuration.
+                        
+                        The Discord Channel that is monitored.
+                        Any user who sends a message in this channel will be punished."""
         );
 
         if (honeyPotChannel.isNull()) {
@@ -137,17 +147,21 @@ public class Config {
                 commentedConfigurationNode.node("honey-pot-punishment-reason");
 
         honeyPotBanReason.comment(
-                "Moderation Configuration.\n\n" +
-                        "The reason for the user's punishment, which will be logged in the Discord Audit Log."
+                """
+                        Moderation Configuration.
+                        
+                        The reason for the user's punishment, which will be logged in the Discord Audit Log."""
         );
 
         CommentedConfigurationNode honeyPotMessageFormat =
                 commentedConfigurationNode.node("honey-pot-message-format");
 
         honeyPotMessageFormat.comment(
-                "Moderation Configuration.\n\n" +
-                        "The warning message that should be sent in the configured honey-pot channel.\n" +
-                        "Supported values: text, embed."
+                """
+                        Moderation Configuration.
+                        
+                        The warning message that should be sent in the configured honey-pot channel.
+                        Supported values: text, embed."""
         );
 
         if (honeyPotMessageFormat.isNull()) {

@@ -1,6 +1,7 @@
 package io.github.tomthebuddhacat;
 
 import io.github.tomthebuddhacat.config.Config;
+import io.github.tomthebuddhacat.config.Data;
 import io.github.tomthebuddhacat.listener.PunishmentListener;
 import io.github.tomthebuddhacat.listener.ReadyListener;
 import net.dv8tion.jda.api.JDA;
@@ -17,6 +18,9 @@ public class Main {
         // Load the bot configuration.
         Config config = new Config();
 
+        // Load the bot data file.
+        Data data = new Data();
+
         // Initialize the Discord bot.
         JDA jda = JDABuilder.createDefault(config.getAuthenticationToken())
 
@@ -32,7 +36,7 @@ public class Main {
                // Register event listeners.
                 .addEventListeners(
                         new PunishmentListener(config),
-                        new ReadyListener(config)
+                        new ReadyListener(config, data)
                 )
 
                 .build();

@@ -30,6 +30,14 @@ The bot uses HOCON (`config.conf`) for its configuration.
 | `honey-pot-embed.footer` | The footer displayed at the bottom of the warning embed. |
 
 
+## Data
+The bot uses HOCON (`data.conf`) to store bot related data.
+
+| Key | Description |
+|---|---|
+| `honey-pot-warning-message-id` | The ID of the published warning message. |
+
+
 ## Built With
 
 ![Java](https://img.shields.io/badge/Java-25%2B-orange)

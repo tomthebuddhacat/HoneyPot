@@ -2,6 +2,12 @@
 
 All changes to this project will be documented here.
 
+# Release [1.0.1] - 2026/11/03
+### Added
+- Updated the code to store data within specific file. 
+### Updated
+- Improved code readability.
+
 # Release [1.0.0] - 2026/11/03
 ### Added
 - Configurable honey pot warning message.

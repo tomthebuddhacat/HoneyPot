@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PunishmentListener extends ListenerAdapter {
 
-    private Config config;
+    private final Config config;
 
     public PunishmentListener(Config config) {
         this.config = config;
