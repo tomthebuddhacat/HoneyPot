@@ -4,6 +4,7 @@ import io.github.tomthebuddhacat.config.Config;
 import io.github.tomthebuddhacat.config.Data;
 import io.github.tomthebuddhacat.listener.PunishmentListener;
 import io.github.tomthebuddhacat.listener.ReadyListener;
+import io.github.tomthebuddhacat.utils.MessageService;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -15,11 +16,17 @@ public class Main {
 
     static void main(String[] args) throws IOException, InterruptedException {
 
-        // Load the bot configuration.
-        Config config = new Config();
+        // Initialize the configuration class.
+        Config config =
+                new Config();
 
-        // Load the bot data file.
-        Data data = new Data();
+        // Initialize the data class.
+        Data data =
+                new Data();
+
+        // Initialize the message service class.
+        MessageService messageService =
+                new MessageService(config, data);
 
         // Initialize the Discord bot.
         JDA jda = JDABuilder.createDefault(config.getAuthenticationToken())
@@ -36,7 +43,7 @@ public class Main {
                // Register event listeners.
                 .addEventListeners(
                         new PunishmentListener(config),
-                        new ReadyListener(config, data)
+                        new ReadyListener(config, data, messageService)
                 )
 
                 .build();

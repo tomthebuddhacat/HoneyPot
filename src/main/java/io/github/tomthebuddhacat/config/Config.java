@@ -27,7 +27,7 @@ public class Config {
         Path configPath = Path.of("config.conf").toAbsolutePath();
 
         // Create the directory if it doesn't exist.
-        if (configPath.getParent() == null) {
+        if (configPath.getParent() != null) {
             Files.createDirectories(configPath.getParent());
         }
 
@@ -71,6 +71,10 @@ public class Config {
         return commentedConfigurationNode.node("honey-pot-message-format").getString();
     }
 
+    public boolean useComponentsFormat() {
+        return commentedConfigurationNode.node("use-components-embeding-format").getBoolean();
+    }
+
     public String getHoneyPotMessage() {
         return commentedConfigurationNode.node("honey-pot-warning-message").getString();
     }
@@ -109,7 +113,7 @@ public class Config {
         );
 
         if (discordBotToken.isNull()) {
-            discordBotToken.set("CHANGE_THIS_VALUE");
+            discordBotToken.set("");
         }
 
         CommentedConfigurationNode discordBotStatus =
@@ -125,7 +129,22 @@ public class Config {
         );
 
         if (discordBotStatus.isNull()) {
-            discordBotStatus.set("CHANGE_THIS_VALUE");
+            discordBotStatus.set("");
+        }
+
+        CommentedConfigurationNode componentsFormat =
+                commentedConfigurationNode.node("use-components-embeding-format");
+
+        componentsFormat.comment(
+                """
+                        Miscellaneous Configuration.
+                        
+                        Instead of using embeds, the bot will use ComponentsV2
+                        to display warning and log messages."""
+        );
+
+        if (componentsFormat.isNull()) {
+            componentsFormat.set("true");
         }
 
         CommentedConfigurationNode honeyPotChannel =
@@ -140,7 +159,7 @@ public class Config {
         );
 
         if (honeyPotChannel.isNull()) {
-            honeyPotChannel.set("CHANGE_THIS_VALUE");
+            honeyPotChannel.set("");
         }
 
         CommentedConfigurationNode honeyPotBanReason =
@@ -165,33 +184,39 @@ public class Config {
         );
 
         if (honeyPotMessageFormat.isNull()) {
-            honeyPotMessageFormat.set("CHANGE_THIS_VALUE");
+            honeyPotMessageFormat.set("");
         }
 
         CommentedConfigurationNode honeyPotMessage =
                 commentedConfigurationNode.node("honey-pot-warning-message");
 
         if (honeyPotMessage.isNull()) {
-            honeyPotMessage.set("CHANGE_THIS_VALUE");
+            honeyPotMessage.set("");
         }
 
         CommentedConfigurationNode honeyPotEmebedMessage =
                 commentedConfigurationNode.node("honey-pot-embed-warning-message");
 
         if (honeyPotEmebedMessage.node("embedTitle").isNull()) {
-            honeyPotEmebedMessage.node("embedTitle").set("CHANGE_THIS_VALUE");
+            honeyPotBanReason.node("embedTitle").comment(
+                    """
+                            If you have enabled ComponentsV2, please note that you only need to configure the title,
+                            description and color in their respective sections.
+                            To disable ComponentsV2, set 'use-components-embeding-format' to 'false'"""
+            );
+            honeyPotEmebedMessage.node("embedTitle").set("");
         }
 
         if (honeyPotEmebedMessage.node("embedDescription").isNull()) {
-            honeyPotEmebedMessage.node("embedDescription").set("CHANGE_THIS_VALUE");
+            honeyPotEmebedMessage.node("embedDescription").set("");
         }
 
         if (honeyPotEmebedMessage.node("embedColor").isNull()) {
-            honeyPotEmebedMessage.node("embedColor").set("CHANGE_THIS_VALUE");
+            honeyPotEmebedMessage.node("embedColor").set("");
         }
 
         if (honeyPotEmebedMessage.node("embedFooter").isNull()) {
-            honeyPotEmebedMessage.node("embedFooter").set("CHANGE_THIS_VALUE");
+            honeyPotEmebedMessage.node("embedFooter").set("");
         }
     }
 }

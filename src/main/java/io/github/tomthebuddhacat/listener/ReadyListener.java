@@ -2,6 +2,7 @@ package io.github.tomthebuddhacat.listener;
 
 import io.github.tomthebuddhacat.config.Config;
 import io.github.tomthebuddhacat.config.Data;
+import io.github.tomthebuddhacat.utils.MessageService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -19,9 +20,12 @@ public class ReadyListener extends ListenerAdapter {
 
     private final Data data;
 
-    public ReadyListener(Config config, Data data) {
+    private final MessageService messageService;
+
+    public ReadyListener(Config config, Data data, MessageService messageService) {
         this.config = config;
         this.data = data;
+        this.messageService = messageService;
     }
 
     @Override
@@ -34,47 +38,12 @@ public class ReadyListener extends ListenerAdapter {
         String messageId = data.getWarningMessageId();
 
         if (messageId != null) {
-            textChannel.retrieveMessageById(messageId).queue(
-                    onSuccess -> publishMessage(textChannel),
-                    onFailure -> System.out.println("HoneyPot warning message already exists.")
-            );
+           textChannel.retrieveMessageById(messageId).queue(
+                   onSuccess -> System.out.println("HoneyPot warning message already exists"),
+                   onFailure -> messageService.publishWarningMessage(textChannel)
+           );
         } else {
-            publishMessage(textChannel);
+            messageService.publishWarningMessage(textChannel);
         }
-    }
-
-    private void publishMessage(TextChannel textChannel) {
-
-        RestAction<Message> restAction;
-
-        switch (config.getHoneyPotMessageFormat().toLowerCase(Locale.ROOT)) {
-
-            case "text" -> restAction = textChannel.sendMessage(config.getHoneyPotMessage());
-
-            case "embed" -> restAction = textChannel.sendMessageEmbeds(
-                    new EmbedBuilder()
-                            .setTitle(config.getHoneyPotEmbedTitle())
-                            .setDescription(config.getHoneyPotEmbedDescription())
-                            .setFooter(config.getHoneyPotEmbedFooter())
-                            .setColor(Color.decode(config.getHoneyPotEmbedColor()))
-                            .build()
-            );
-
-            default -> {
-                System.out.println("Invalid HoneyPot message format used. Please use text or embed.");
-                return;
-            }
-
-        }
-
-        restAction.queue( message -> {
-                    try {
-                        data.setWarningMessageId(message.getId());
-                        System.out.println("Successfully published HoneyPot warning message.");
-                    } catch (IOException ioException) {
-                        System.out.println("Failed to save warning messageID: " + ioException.getMessage());
-                    }
-                }
-        );
     }
 }
