@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Config {
+public class ConfigManager {
 
     private final HoconConfigurationLoader hoconConfigurationLoader;
 
@@ -21,7 +21,7 @@ public class Config {
      *
      * @throws IOException if the configuration failed to load or save.
      */
-    public Config() throws IOException {
+    public ConfigManager() throws IOException {
 
         // Define the configuration file location.
         Path configPath = Path.of("config.conf").toAbsolutePath();
@@ -72,7 +72,7 @@ public class Config {
     }
 
     public boolean useComponentsFormat() {
-        return commentedConfigurationNode.node("use-components-embeding-format").getBoolean();
+        return commentedConfigurationNode.node("use-components-embed-format").getBoolean();
     }
 
     public String getHoneyPotMessage() {
@@ -133,7 +133,7 @@ public class Config {
         }
 
         CommentedConfigurationNode componentsFormat =
-                commentedConfigurationNode.node("use-components-embeding-format");
+                commentedConfigurationNode.node("use-components-embed-format");
 
         componentsFormat.comment(
                 """
@@ -144,7 +144,7 @@ public class Config {
         );
 
         if (componentsFormat.isNull()) {
-            componentsFormat.set("true");
+            componentsFormat.set(true);
         }
 
         CommentedConfigurationNode honeyPotChannel =
@@ -198,11 +198,11 @@ public class Config {
                 commentedConfigurationNode.node("honey-pot-embed-warning-message");
 
         if (honeyPotEmebedMessage.node("embedTitle").isNull()) {
-            honeyPotBanReason.node("embedTitle").comment(
+            honeyPotEmebedMessage.node("embedTitle").comment(
                     """
                             If you have enabled ComponentsV2, please note that you only need to configure the title,
                             description and color in their respective sections.
-                            To disable ComponentsV2, set 'use-components-embeding-format' to 'false'"""
+                            To disable ComponentsV2, set 'use-components-embed-format' to 'false'"""
             );
             honeyPotEmebedMessage.node("embedTitle").set("");
         }
@@ -212,7 +212,7 @@ public class Config {
         }
 
         if (honeyPotEmebedMessage.node("embedColor").isNull()) {
-            honeyPotEmebedMessage.node("embedColor").set("");
+            honeyPotEmebedMessage.node("embedColor").set("#000000");
         }
 
         if (honeyPotEmebedMessage.node("embedFooter").isNull()) {

@@ -2,6 +2,16 @@
 
 All changes to this project will be documented here.
 
+## [1.0.2.1] - 2026/11/05
+
+### Resolved 
+- A comment appearing in the wrong section.
+- Rephrased a configuration key and it's value.
+- Fixed a NumberFormatException caused by a null embedColor value by defining a default value.
+- Fixed an issue where the bot attempted to interact with members whose highest role was above the bot's role.
+- Improved code consistency throughout the project.
+- Refactored Config and Data into ConfigManager and DataManager, respectively.
+
 ## [1.0.2] - 2026/11/05
 
 ### Implemented

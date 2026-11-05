@@ -1,7 +1,7 @@
 package io.github.tomthebuddhacat;
 
-import io.github.tomthebuddhacat.config.Config;
-import io.github.tomthebuddhacat.config.Data;
+import io.github.tomthebuddhacat.config.ConfigManager;
+import io.github.tomthebuddhacat.config.DataManager;
 import io.github.tomthebuddhacat.listener.PunishmentListener;
 import io.github.tomthebuddhacat.listener.ReadyListener;
 import io.github.tomthebuddhacat.utils.MessageService;
@@ -16,20 +16,20 @@ public class Main {
 
     static void main(String[] args) throws IOException, InterruptedException {
 
-        // Initialize the configuration class.
-        Config config =
-                new Config();
+        // Initialize the configuration manager class.
+        ConfigManager configManager =
+                new ConfigManager();
 
-        // Initialize the data class.
-        Data data =
-                new Data();
+        // Initialize the data manager class.
+        DataManager dataManager =
+                new DataManager();
 
         // Initialize the message service class.
         MessageService messageService =
-                new MessageService(config, data);
+                new MessageService(configManager, dataManager);
 
         // Initialize the Discord bot.
-        JDA jda = JDABuilder.createDefault(config.getAuthenticationToken())
+        JDA jda = JDABuilder.createDefault(configManager.getAuthenticationToken())
 
                 // Enable the required gateway intents.
                 .enableIntents(
@@ -38,12 +38,12 @@ public class Main {
                 )
 
                // Set the bot's activity.
-                .setActivity(Activity.watching(config.getStatus()))
+                .setActivity(Activity.watching(configManager.getStatus()))
 
                // Register event listeners.
                 .addEventListeners(
-                        new PunishmentListener(config),
-                        new ReadyListener(config, data, messageService)
+                        new PunishmentListener(configManager),
+                        new ReadyListener(configManager, dataManager, messageService)
                 )
 
                 .build();

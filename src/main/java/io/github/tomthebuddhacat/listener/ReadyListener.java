@@ -1,49 +1,46 @@
 package io.github.tomthebuddhacat.listener;
 
-import io.github.tomthebuddhacat.config.Config;
-import io.github.tomthebuddhacat.config.Data;
+import io.github.tomthebuddhacat.config.ConfigManager;
+import io.github.tomthebuddhacat.config.DataManager;
 import io.github.tomthebuddhacat.utils.MessageService;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.RestAction;
-
-import java.awt.*;
-import java.io.IOException;
-import java.util.Locale;
 
 public class ReadyListener extends ListenerAdapter {
 
-    private final Config config;
+    private final ConfigManager configManager;
 
-    private final Data data;
+    private final DataManager dataManager;
 
     private final MessageService messageService;
 
-    public ReadyListener(Config config, Data data, MessageService messageService) {
-        this.config = config;
-        this.data = data;
+    public ReadyListener(ConfigManager configManager, DataManager dataManager, MessageService messageService) {
+        this.configManager = configManager;
+        this.dataManager = dataManager;
         this.messageService = messageService;
     }
 
     @Override
     public void onReady(ReadyEvent readyEvent) {
 
-        TextChannel textChannel = readyEvent.getJDA().getTextChannelById(config.getHoneyPotChannelId());
+        TextChannel textChannel = readyEvent.getJDA().getTextChannelById(configManager.getHoneyPotChannelId());
 
         if (textChannel == null) return;
 
-        String messageId = data.getWarningMessageId();
+        String messageId = dataManager.getWarningMessageId();
 
         if (messageId != null) {
+
            textChannel.retrieveMessageById(messageId).queue(
                    onSuccess -> System.out.println("HoneyPot warning message already exists"),
                    onFailure -> messageService.publishWarningMessage(textChannel)
            );
+
         } else {
+
             messageService.publishWarningMessage(textChannel);
+
         }
     }
 }

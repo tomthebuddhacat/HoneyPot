@@ -28,7 +28,7 @@ The bot uses HOCON (`config.conf`) for its configuration.
 | `honey-pot-embed.description` | The description displayed inside the warning embed. |
 | `honey-pot-embed.color` | The color of the warning embed. |
 | `honey-pot-embed.footer` | The footer displayed at the bottom of the warning embed. |
-| `use-components-embeding-format` | Whether to use Components V2 for embed warning messages. |
+| `use-components-embed-format` | Whether to use Components V2 for embed warning messages. |
 
 
 ## Data

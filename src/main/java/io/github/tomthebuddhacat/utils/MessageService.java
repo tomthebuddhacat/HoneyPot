@@ -1,7 +1,7 @@
 package io.github.tomthebuddhacat.utils;
 
-import io.github.tomthebuddhacat.config.Config;
-import io.github.tomthebuddhacat.config.Data;
+import io.github.tomthebuddhacat.config.ConfigManager;
+import io.github.tomthebuddhacat.config.DataManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.components.MessageTopLevelComponent;
 import net.dv8tion.jda.api.components.container.Container;
@@ -19,13 +19,13 @@ import java.util.Locale;
 
 public class MessageService {
 
-    private final Config config;
+    private final ConfigManager configManager;
 
-    private final Data data;
+    private final DataManager dataManager;
 
-    public MessageService(Config config, Data data) {
-        this.config = config;
-        this.data = data;
+    public MessageService(ConfigManager configManager, DataManager dataManager) {
+        this.configManager = configManager;
+        this.dataManager = dataManager;
     }
 
     /**
@@ -88,22 +88,21 @@ public class MessageService {
 
         RestAction<Message> restAction;
 
-        switch (config.getHoneyPotMessageFormat().toLowerCase(Locale.ROOT)) {
+        switch (configManager.getHoneyPotMessageFormat().toLowerCase(Locale.ROOT)) {
 
             case "text" -> restAction = this.textMessage(
                     textChannel,
-                    config.getHoneyPotMessage()
+                    configManager.getHoneyPotMessage()
             );
 
             case "embed" -> {
-                if (config.useComponentsFormat()) {
+                if (configManager.useComponentsFormat()) {
                     restAction = this.componentsMessage(
                             textChannel,
                             List.of(Container.of(TextDisplay.of(
-                                    config.getHoneyPotEmbedTitle() + "\n" +
-                                            config.getHoneyPotEmbedDescription()
+                                    configManager.getHoneyPotEmbedTitle() + "\n" +
+                                            configManager.getHoneyPotEmbedDescription()
                                             )
-
                                     )
                             )
                     );
@@ -112,10 +111,10 @@ public class MessageService {
 
                     restAction = this.embedMessage(
                             textChannel,
-                            config.getHoneyPotEmbedTitle(),
-                            config.getHoneyPotEmbedDescription(),
-                            config.getHoneyPotEmbedFooter(),
-                            config.getHoneyPotEmbedColor()
+                            configManager.getHoneyPotEmbedTitle(),
+                            configManager.getHoneyPotEmbedDescription(),
+                            configManager.getHoneyPotEmbedFooter(),
+                            configManager.getHoneyPotEmbedColor()
                     );
                 }
             }
@@ -136,7 +135,7 @@ public class MessageService {
 
     private void saveWarningMessageId(Message message) {
         try {
-            data.setWarningMessageId(message.getId());
+            dataManager.setWarningMessageId(message.getId());
             System.out.println("Successfully published HoneyPot warning message.");
         } catch (IOException ioException) {
             System.out.println("Failed to save warning messageID: " + ioException.getMessage());

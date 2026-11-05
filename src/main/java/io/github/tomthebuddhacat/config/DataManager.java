@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Data {
+public class DataManager {
 
     private final HoconConfigurationLoader hoconConfigurationLoader;
 
@@ -21,7 +21,7 @@ public class Data {
      *
      * @throws IOException if the data file failed to load or save.
      */
-    public Data() throws IOException {
+    public DataManager() throws IOException {
 
         // Define the data file location.
         Path dataPath = Path.of("data.conf").toAbsolutePath();
