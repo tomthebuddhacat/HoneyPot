@@ -2,9 +2,11 @@ package io.github.tomthebuddhacat;
 
 import io.github.tomthebuddhacat.config.ConfigManager;
 import io.github.tomthebuddhacat.config.DataManager;
-import io.github.tomthebuddhacat.listener.PunishmentListener;
+import io.github.tomthebuddhacat.listener.MessageReceiveListener;
 import io.github.tomthebuddhacat.listener.ReadyListener;
+import io.github.tomthebuddhacat.utils.LogService;
 import io.github.tomthebuddhacat.utils.MessageService;
+import io.github.tomthebuddhacat.utils.PunishmentService;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -28,6 +30,14 @@ public class Main {
         MessageService messageService =
                 new MessageService(configManager, dataManager);
 
+        // Initialize the log service class.
+        LogService logService =
+                new LogService(configManager, messageService);
+
+        // Initialize the punishment service class.
+        PunishmentService punishmentService
+                = new PunishmentService(configManager, logService);
+
         // Initialize the Discord bot.
         JDA jda = JDABuilder.createDefault(configManager.getAuthenticationToken())
 
@@ -42,7 +52,7 @@ public class Main {
 
                // Register event listeners.
                 .addEventListeners(
-                        new PunishmentListener(configManager),
+                        new MessageReceiveListener(punishmentService, configManager),
                         new ReadyListener(configManager, dataManager, messageService)
                 )
 

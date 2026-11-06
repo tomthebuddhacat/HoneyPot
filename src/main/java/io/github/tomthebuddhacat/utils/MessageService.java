@@ -38,6 +38,7 @@ public class MessageService {
     public MessageCreateAction textMessage(
             MessageChannel messageChannel,
             String messageContent) {
+
         return messageChannel.sendMessage(messageContent);
     }
 
@@ -58,6 +59,7 @@ public class MessageService {
             String embedFooter,
             String embedColor
     ) {
+
         return messageChannel.sendMessageEmbeds(
                 new EmbedBuilder()
                         .setTitle(embedTitle)
@@ -79,8 +81,51 @@ public class MessageService {
             MessageChannel messageChannel,
             List<? extends MessageTopLevelComponent> messageComponents
     ) {
+
         return messageChannel.sendMessageComponents(messageComponents)
                 .useComponentsV2();
+    }
+
+    /**
+     * Sends a message through components.
+     *
+     * @param messageChannel The channel where the components message is supposed to be sent in.
+     * @param messageContent The message content.
+     * @return A published message in a specific channel.
+     */
+    public MessageCreateAction logFailedMessage(
+            MessageChannel messageChannel,
+            String messageContent) {
+
+        return this.componentsMessage(
+                messageChannel,
+                List.of(Container.of(
+                        TextDisplay.of("HoneyPot Logging Service"),
+                        TextDisplay.of(messageContent)
+                        )
+                )
+        );
+    }
+
+    /**
+     * Sends a message through components.
+     *
+     * @param messageChannel The channel where the components message is supposed to be sent in.
+     * @param messageContent The message content.
+     * @return A published message in a specific channel.
+     */
+    public MessageCreateAction logSuccessMessage(
+            MessageChannel messageChannel,
+            String messageContent) {
+
+        return this.componentsMessage(
+                messageChannel,
+                List.of(Container.of(
+                                TextDisplay.of("HoneyPot Logging Service"),
+                                TextDisplay.of(messageContent)
+                        )
+                )
+        );
     }
 
 

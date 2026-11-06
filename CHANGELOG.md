@@ -2,6 +2,14 @@
 
 All changes to this project will be documented here.
 
+## [1.0.3] - 2026/11/06
+
+### Implemented
+- Implemented the respective classes and configuration values to support punishment logging.
+
+### Resolved
+- Refactored PunishmentListener into MessageReceiveListener.
+
 ## [1.0.2.1] - 2026/11/05
 
 ### Resolved 

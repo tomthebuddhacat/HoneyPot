@@ -67,12 +67,24 @@ public class ConfigManager {
         return commentedConfigurationNode.node("honey-pot-punishment-reason").getString();
     }
 
+    public String getHoneyPotPunishmentType() {
+        return commentedConfigurationNode.node("honey-pot-punishment-type").getString();
+    }
+
     public String getHoneyPotMessageFormat() {
         return commentedConfigurationNode.node("honey-pot-message-format").getString();
     }
 
     public boolean useComponentsFormat() {
         return commentedConfigurationNode.node("use-components-embed-format").getBoolean();
+    }
+
+    public boolean useLogService() {
+        return commentedConfigurationNode.node("use-punishment-logging").getBoolean();
+    }
+
+    public String getPunishmentLogChannelId() {
+        return commentedConfigurationNode.node("punishment-logging-channel-id").getString();
     }
 
     public String getHoneyPotMessage() {
@@ -147,6 +159,22 @@ public class ConfigManager {
             componentsFormat.set(true);
         }
 
+        CommentedConfigurationNode useLogService =
+                commentedConfigurationNode.node("use-punishment-logging");
+
+        useLogService.comment(
+                """
+                        Miscellaneous Configuration.
+                        
+                        The bot will log both successful and failed
+                        attempts to punish a member."""
+        );
+
+        if (useLogService.isNull()) {
+            useLogService.set(true);
+        }
+
+
         CommentedConfigurationNode honeyPotChannel =
                 commentedConfigurationNode.node("honey-pot-channel-id");
 
@@ -158,8 +186,19 @@ public class ConfigManager {
                         Any user who sends a message in this channel will be punished."""
         );
 
-        if (honeyPotChannel.isNull()) {
-            honeyPotChannel.set("");
+        CommentedConfigurationNode logPunishmentChannel =
+                commentedConfigurationNode.node("punishment-logging-channel-id");
+
+        logPunishmentChannel.comment(
+                """
+                        Moderation Configuration.
+                        
+                        The Discord channel where punishment
+                        attempts are logged."""
+        );
+
+        if (logPunishmentChannel.isNull()) {
+            logPunishmentChannel.set("");
         }
 
         CommentedConfigurationNode honeyPotBanReason =
@@ -170,6 +209,17 @@ public class ConfigManager {
                         Moderation Configuration.
                         
                         The reason for the user's punishment, which will be logged in the Discord Audit Log."""
+        );
+
+        CommentedConfigurationNode honeyPotPunishmentType =
+                commentedConfigurationNode.node("honey-pot-punishment-type");
+
+        honeyPotPunishmentType.comment(
+                """
+                        Moderation Configuration.
+                        
+                        Specify the punishment type the bot will apply to users who send a message in the honey-pot channel.
+                        Currently supports 'softban', 'hardban', and 'timeout'."""
         );
 
         CommentedConfigurationNode honeyPotMessageFormat =
